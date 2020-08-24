@@ -92,7 +92,7 @@ jobs:
         $GITHUB_WORKSPACE/$DIY_P2_SH
 
     - name: SSH connection to Actions 【启动SSH等待连接此Action】
-      uses: rick2046/debugger-action@main
+      uses: P3TERX/debugger-action@main
       if: env.SSH_ACTIONS == 'true' || contains(github.event.action, 'ssh')
 
     - name: Download package 【下载包文件，执行命令：make defconfig && make download -j8】
