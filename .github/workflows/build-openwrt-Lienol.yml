@@ -11,7 +11,7 @@ on:
     paths:
       - '.config'
   schedule:
-     - cron: 20 12 * * *
+     - cron: 38 12 * * *
   watch:
      types: started
 
@@ -74,6 +74,7 @@ jobs:
       run: cd openwrt && ./scripts/feeds install -a
     
     - name: 导入自定义【后期添加】
+      working-directory: /workdir
       run: |
         git clone https://github.com/rick2046/diy ./openwrt/diy/rick2046
         mv ./openwrt/diy/rick2046/$CONFIG_FILE1 $(pwd)
