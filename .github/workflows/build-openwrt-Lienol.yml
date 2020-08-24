@@ -11,7 +11,7 @@ on:
     paths:
       - '.j4205_x86_config'
   schedule:
-     - cron: 30 22 * * *
+     - cron: 38 22 * * *
   watch:
      types: started
 
