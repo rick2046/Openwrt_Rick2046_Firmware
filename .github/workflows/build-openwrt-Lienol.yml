@@ -70,7 +70,8 @@ jobs:
     - name: Add source to feeds 【添加软件包的源】
       working-directory: /workdir
       run: |
-        echo "src-git kenzo https://github.com/kenzok8/openwrt-packages" >> openwrt/feeds.conf.default
+#        echo "src-git kenzo https://github.com/kenzok8/openwrt-packages" >> openwrt/feeds.conf.default
+        echo "hello world!"
 
     - name: Update feeds 【更新Feeds，执行命令：./scripts/feeds update -a】
       run: cd openwrt && ./scripts/feeds update -a
