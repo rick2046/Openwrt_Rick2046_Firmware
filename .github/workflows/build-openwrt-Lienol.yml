@@ -79,11 +79,11 @@ jobs:
       working-directory: /workdir
       run: |
         git clone https://github.com/rick2046/diy ./openwrt/diy/rick2046
-        mv ./openwrt/diy/rick2046/$CONFIG_FILE1 $(pwd)
+        #mv ./openwrt/diy/rick2046/$CONFIG_FILE1 $(pwd)
         mv ./openwrt/diy/rick2046/$DIY_SH $(pwd)
         df -h && pwd
         [ -e files ] && mv files openwrt/files
-        [ -e $CONFIG_FILE1 ] && mv $CONFIG_FILE1 openwrt/.config
+        #[ -e $CONFIG_FILE1 ] && mv $CONFIG_FILE1 openwrt/.config
         chmod +x $DIY_SH && cd openwrt && ../$DIY_SH
 
     - name: Load custom configuration 【加载自定义配置，复制files文件夹中的文件和config文件，然后执行脚本2】
