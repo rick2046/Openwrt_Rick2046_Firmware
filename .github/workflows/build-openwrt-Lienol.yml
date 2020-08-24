@@ -1,5 +1,5 @@
 
-name: Build OpenWrt-Rick2046-Lean
+name: Build OpenWrt-Rick2046-Lienol
 
 on:
   repository_dispatch:
@@ -11,7 +11,7 @@ on:
     paths:
       - '.config'
   schedule:
-     - cron: 40 11 * * *
+     - cron: 40 15 * * *
   watch:
      types: started
 
@@ -19,14 +19,16 @@ env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
   FEEDS_CONF: j4205_x86_feeds.conf.default
-  CONFIG_FILE: .j4205_x86_config
+  CONFIG_FILE: .j4205_x86_config1
+  CONFIG_FILE1: config-x86-Lienol
+  DIY_SH: diy-x86-Lienol.sh
   DIY_P1_SH: j4205_x86_diy-part1.sh
   DIY_P2_SH: j4205_x86_diy-part2.sh
   SSH_ACTIONS: false
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
-  UPLOAD_COWTRANSFER: false
-  UPLOAD_WETRANSFER: false
+  UPLOAD_COWTRANSFER: true
+  UPLOAD_WETRANSFER: true
   TZ: Asia/Shanghai
 
 jobs:
@@ -70,6 +72,16 @@ jobs:
 
     - name: Install feeds 【安装Feeds】
       run: cd openwrt && ./scripts/feeds install -a
+    
+    - name: 导入自定义【后期添加】
+      run: |
+        git clone https://github.com/rick2046/diy ./openwrt/diy/rick2046
+        mv ./openwrt/diy/rick2046/$CONFIG_FILE1 $(pwd)
+        mv ./openwrt/diy/rick2046/$DIY_SH $(pwd)
+        df -h && pwd
+        [ -e files ] && mv files openwrt/files
+        [ -e $CONFIG_FILE1 ] && mv $CONFIG_FILE1 openwrt/.config
+        chmod +x $DIY_SH && cd openwrt && ../$DIY_SH
 
     - name: Load custom configuration 【加载自定义配置，复制files文件夹中的文件和config文件，然后执行脚本2】
       run: |
@@ -80,7 +92,7 @@ jobs:
         $GITHUB_WORKSPACE/$DIY_P2_SH
 
     - name: SSH connection to Actions 【启动SSH等待连接此Action】
-      uses: P3TERX/debugger-action@main
+      uses: rick2046/debugger-action@main
       if: env.SSH_ACTIONS == 'true' || contains(github.event.action, 'ssh')
 
     - name: Download package 【下载包文件，执行命令：make defconfig && make download -j8】
