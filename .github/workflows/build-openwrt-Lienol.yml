@@ -11,7 +11,7 @@ on:
     paths:
       - '.config'
   schedule:
-     - cron: 55 15 * * *
+     - cron: 30 22 * * *
   watch:
      types: started
 
@@ -19,8 +19,8 @@ env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
   FEEDS_CONF: j4205_x86_feeds.conf.default
-  CONFIG_FILE: .j4205_x86_config1
-  CONFIG_FILE1: config-x86-Lienol
+  CONFIG_FILE: .j4205_x86_config
+  CONFIG_FILE1: config-x86-Lienol1
   DIY_SH: diy-x86-Lienol.sh
   DIY_P1_SH: j4205_x86_diy-part1.sh
   DIY_P2_SH: j4205_x86_diy-part2.sh
@@ -74,9 +74,6 @@ jobs:
 
     - name: Update feeds 【更新Feeds，执行命令：./scripts/feeds update -a】
       run: cd openwrt && ./scripts/feeds update -a
-
-    - name: Install feeds 【安装Feeds】
-      run: cd openwrt && ./scripts/feeds install -a
     
     - name: 导入自定义【后期添加】
       working-directory: /workdir
