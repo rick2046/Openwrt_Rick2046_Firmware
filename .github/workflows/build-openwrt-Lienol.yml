@@ -11,19 +11,23 @@ on:
     paths:
       - '.j4205_x86_config'
   schedule:
-     - cron: 38 22 * * *
+     - cron: 01 02 * * *
   watch:
      types: started
 
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
-  FEEDS_CONF: j4205_x86_feeds.conf.default
-  CONFIG_FILE: .j4205_x86_config
+#  FEEDS_CONF: j4205_x86_feeds.conf.default
+  FEEDS_CONF: test.feeds.conf.default
+#  CONFIG_FILE: .j4205_x86_config
+  CONFIG_FILE: config.bak08
   CONFIG_FILE1: config-x86-Lienol1
   DIY_SH: diy-x86-Lienol.sh
+#  DIY_P1_SH: j4205_x86_diy-part1.sh
+#  DIY_P2_SH: j4205_x86_diy-part2.sh
   DIY_P1_SH: j4205_x86_diy-part1.sh
-  DIY_P2_SH: j4205_x86_diy-part2.sh
+  DIY_P2_SH: diy-x86-Lienol.sh
   SSH_ACTIONS: false
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
@@ -59,8 +63,12 @@ jobs:
         df -hT $PWD
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+        
+#       Filesystem Type Size Used Avail Use% Mounted on
+#       /dev/sda2 ext4 457G 409G 25G 95% /
+#       ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt 强制创建软连接，/workdir/openwrt 指向 $GITHUB_WORKSPACE/openwrt 
 
-    - name: Load custom feeds 【加载自定义Feeds】
+    - name: Load custom feeds and run diy sh file 【加载自定义Feeds，然后执行DIY脚本：DIY_P1_SH】
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
         chmod +x $DIY_P1_SH
@@ -75,16 +83,16 @@ jobs:
     - name: Update feeds 【更新Feeds，执行命令：./scripts/feeds update -a】
       run: cd openwrt && ./scripts/feeds update -a
     
-    - name: 导入自定义【后期添加】
-      working-directory: /workdir
-      run: |
-        git clone https://github.com/rick2046/diy ./openwrt/diy/rick2046
-        #mv ./openwrt/diy/rick2046/$CONFIG_FILE1 $(pwd)
-        mv ./openwrt/diy/rick2046/$DIY_SH $(pwd)
-        df -h && pwd
-        [ -e files ] && mv files openwrt/files
-        #[ -e $CONFIG_FILE1 ] && mv $CONFIG_FILE1 openwrt/.config
-        chmod +x $DIY_SH && cd openwrt && ../$DIY_SH
+#    - name: 导入自定义【后期添加】
+#      working-directory: /workdir
+#      run: |
+#        git clone https://github.com/rick2046/diy ./openwrt/diy/rick2046
+#        #mv ./openwrt/diy/rick2046/$CONFIG_FILE1 $(pwd)
+#        mv ./openwrt/diy/rick2046/$DIY_SH $(pwd)
+#        df -h && pwd
+#        [ -e files ] && mv files openwrt/files
+#        #[ -e $CONFIG_FILE1 ] && mv $CONFIG_FILE1 openwrt/.config
+#        chmod +x $DIY_SH && cd openwrt && ../$DIY_SH
 
     - name: Load custom configuration 【加载自定义配置，复制files文件夹中的文件和config文件，然后执行脚本2】
       run: |
