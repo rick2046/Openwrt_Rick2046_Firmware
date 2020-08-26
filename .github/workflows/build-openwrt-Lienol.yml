@@ -66,7 +66,7 @@ jobs:
         
 #       Filesystem Type Size Used Avail Use% Mounted on
 #       /dev/sda2 ext4 457G 409G 25G 95% /
-#       ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt 强制创建软连接，/workdir/openwrt 指向 $GITHUB_WORKSPACE/openwrt 
+#       ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt 强制创建软连接:$GITHUB_WORKSPACE/openwrt ---> /workdir/openwrt
 
     - name: Load custom feeds and run diy sh file 【加载自定义Feeds，然后执行DIY脚本：DIY_P1_SH】
       run: |
@@ -96,7 +96,7 @@ jobs:
 
     - name: Load custom configuration 【加载自定义配置，复制files文件夹中的文件和config文件，然后执行脚本2】
       run: |
-        [ -e files ] && mv files openwrt/files
+        [ -e files ] && mv -r files openwrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x $DIY_P2_SH
         cd openwrt
