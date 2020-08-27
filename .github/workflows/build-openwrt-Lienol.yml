@@ -21,13 +21,13 @@ env:
 #  FEEDS_CONF: j4205_x86_feeds.conf.default
   FEEDS_CONF: test.feeds.conf.default
 #  CONFIG_FILE: .j4205_x86_config
-  CONFIG_FILE: config.bak08
-  CONFIG_FILE1: config-x86-Lienol1
+  CONFIG_FILE: config.bak08111
+  CONFIG_FILE1: config-x86-Lienol
   DIY_SH: diy-x86-Lienol.sh
 #  DIY_P1_SH: j4205_x86_diy-part1.sh
 #  DIY_P2_SH: j4205_x86_diy-part2.sh
   DIY_P1_SH: j4205_x86_diy-part1.sh
-  DIY_P2_SH: diy-x86-Lienol.sh
+  DIY_P2_SH: j4205_x86_diy-part2.sh
   SSH_ACTIONS: false
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
