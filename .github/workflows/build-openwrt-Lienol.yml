@@ -11,7 +11,7 @@ on:
     paths:
       - '.j4205_x86_config'
   schedule:
-     - cron: 01 02 * * *
+     - cron: 00 13 * * *
   watch:
      types: started
 
@@ -83,16 +83,18 @@ jobs:
     - name: Update feeds 【更新Feeds，执行命令：./scripts/feeds update -a】
       run: cd openwrt && ./scripts/feeds update -a
     
-#    - name: 导入自定义【后期添加】
-#      working-directory: /workdir
-#      run: |
-#        git clone https://github.com/rick2046/diy ./openwrt/diy/rick2046
-#        #mv ./openwrt/diy/rick2046/$CONFIG_FILE1 $(pwd)
-#        mv ./openwrt/diy/rick2046/$DIY_SH $(pwd)
-#        df -h && pwd
-#        [ -e files ] && mv files openwrt/files
-#        #[ -e $CONFIG_FILE1 ] && mv $CONFIG_FILE1 openwrt/.config
-#        chmod +x $DIY_SH && cd openwrt && ../$DIY_SH
+    - name: 导入自定义【后期添加】
+      working-directory: /workdir
+      run: |
+        git clone https://github.com/sypopo/diy ./openwrt/diy/sypopo
+        #mv ./openwrt/diy/sypopo/$CONFIG_FILE1 $(pwd)
+        mv ./openwrt/diy/sypopo/$DIY_SH $(pwd)
+        df -h && pwd
+        [ -e files ] && mv files openwrt/files
+        #[ -e $CONFIG_FILE1 ] && mv $CONFIG_FILE1 openwrt/.config
+        chmod +x $DIY_SH && cd openwrt && ../$DIY_SH
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
 
     - name: Load custom configuration 【加载自定义配置，复制files文件夹中的文件和config文件，然后执行脚本2】
       run: |
